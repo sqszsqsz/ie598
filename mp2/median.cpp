@@ -9,6 +9,9 @@
 #include <time.h>
 #include <algorithm>
 #include <stdio.h>
+#include <string.h>
+#include <fstream>
+
 
 using namespace std;
 
@@ -126,10 +129,15 @@ int main (int argc, char* argv[])
 	int no_of_trials, no_of_numbers;
 	clock_t time_before, time_after;
 	float diff;
-	
+	char fileName[100];
+	string file;
+		
 	sscanf (argv[1], "%d", &no_of_numbers);
 	sscanf (argv[2], "%d", &no_of_trials);
-	
+	sscanf (argv[3], "%s", fileName);
+
+	file = string(fileName) + ".csv";
+
 	vector <double> my_list;
 	vector <double> copy_of_my_list;
 	for (int i = 0; i < no_of_numbers; i++) {
@@ -148,7 +156,8 @@ int main (int argc, char* argv[])
 	diff = ((float) time_after - (float) time_before);
 	cout << "It took " << diff/CLOCKS_PER_SEC << " seconds to complete" << endl;
 	
-	cout << "-------------" << endl;
+	
+/*	cout << "-------------" << endl;
 	cout << "Bubble Sort Based Method" << endl;
 	time_before = clock(); // recording time before bubble sort starts
 	cout << "The (" << my_list.size()/2 + 1 << ")-th smallest element in a " << 
@@ -156,17 +165,52 @@ int main (int argc, char* argv[])
 	time_after = clock(); // recording time after bubble sort finishes
 	diff = ((float) time_after - (float) time_before);
 	cout << "It took " << diff/CLOCKS_PER_SEC << " seconds to complete" << endl;
-	
+*/	
+
+
 	cout << "-------------" << endl;
 	cout << "Quick Sort Based Method" << endl;
 	time_before = clock(); // recording time before bubble sort starts
 	cout << "The (" << copy_of_my_list.size()/2 + 1 << ")-th smallest element in a ";
-    cout << copy_of_my_list.size() << "-long list is " << selection_from_quick_sort(copy_of_my_list, copy_of_my_list.size()/2 + 1) << endl;
+   	cout << copy_of_my_list.size() << "-long list is " << selection_from_quick_sort(copy_of_my_list, copy_of_my_list.size()/2 + 1) << endl;
 	time_after = clock(); // recording time after bubble sort finishes
 	diff = ((float) time_after - (float) time_before);
 	cout << "It took " << diff/CLOCKS_PER_SEC << " seconds to complete" << endl;
 	cout << "-------------" << endl;
-}
 
+
+	ofstream myfile;
+	myfile.open(file.c_str());
+	myfile << "Median_of_median_time,Quick_sort_time,\n";
+
+
+	double median_result1,median_result2;	
+	for (int i=0; i<no_of_trials ; i++) {
+		time_before = clock();
+		median_result1 = deterministic_selection(my_list,my_list.size()/2+1);
+		time_after = clock();
+		diff = ((float) time_after - (float) time_before);
+		float time_mofm = diff/CLOCKS_PER_SEC;
+
+		time_before = clock();
+		median_result2 = selection_from_quick_sort(copy_of_my_list, copy_of_my_list.size()/2 + 1);
+		time_after = clock();
+		diff = ((float) time_after - (float) time_before);	
+		float time_quick = diff/CLOCKS_PER_SEC;
+
+		myfile << time_mofm << "," << time_quick << ",\n";
+	
+		cout <<"Processed: "  <<  int(100*i/no_of_trials) << "%\r";
+		if (i%100==0)
+			cout.flush();
+	}
+
+	cout << endl;
+	myfile.close();
+
+//	cout << "time mofm = " << time_mofm << endl;
+//	cout << "time quick sort = " << time_quick << endl;
+//	cout << "file name is " << file << endl;
+}
 
 
