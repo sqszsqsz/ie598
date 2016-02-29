@@ -1,2 +1,2 @@
 all:
-	g++ hint.cpp -o permutation
+	g++ permutation.cpp -o permutation

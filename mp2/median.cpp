@@ -93,13 +93,14 @@ double deterministic_selection(vector <double> & list, int k)
 					break;
 			}
 		}
+
+		int random_index = get_uniform()*list.size();
 		
 		if (list_of_medians.size()%2 == 1) // list-size is odd, so pick the "middle" element
-			median_of_medians = deterministic_selection(list_of_medians, ((list_of_medians.size()-1)/2) + 1);
+			median_of_medians = list[random_index];
 		else // list-size is even, so pick the average value of the two "middle" elements
-			median_of_medians = 
-			(deterministic_selection(list_of_medians, (list_of_medians.size())/2) +
-			 (deterministic_selection(list_of_medians, ((list_of_medians.size())/2) + 1)))/2.0;
+			median_of_medians = list[random_index];
+			
 		
 		// split list into three lists called: less_than_median_of_medians, equal_to_median_of_medians, and 
 		// greater-than-median_of_medians 
@@ -182,6 +183,13 @@ int main (int argc, char* argv[])
 	ofstream myfile;
 	myfile.open(file.c_str());
 	myfile << "Median_of_median_time,Quick_sort_time,\n";
+
+
+	//int test_r = get_uniform()*my_list.size();
+	//cout << "test random " << test_r << endl;
+
+	//test_r = get_uniform()*my_list.size();
+	//cout << "test random 2 " << test_r << endl;
 
 
 	double median_result1,median_result2;	
