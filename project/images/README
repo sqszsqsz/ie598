@@ -1,0 +1,15 @@
+===== Indexing Images Using Hash Functions ====
+
+Run:
+python index.py -d out_images -s ahash -f ahash
+python index.py -d out_images -s dhash -f dhash
+python index.py -d out_images -s phash -f phash
+
+
+
+==== Search Similar Images in the Database
+
+Run:
+python search.py -d out_images -s dhash.db -q image_0001.jpg -t 10 -f dhash
+python search.py -d out_images -s ahash.db -q image_0001.jpg -t 10 -f ahash
+python search.py -d out_images -s phash.db -q image_0001.jpg -t 10 -f phash
