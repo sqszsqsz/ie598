@@ -1,0 +1,5 @@
+
+==== Estimate Similarity Between Two Image Datasets ====
+
+Run:
+python minhash_image.py -d dataset1 -d2 dataset2
